@@ -2,6 +2,18 @@
 
 require_once __DIR__ . '/includes/scripts/database.php';
 
+// step 1: connect to database
+// mysqli_connect() - just in a different file
+$connection = getConnection();
+
+// step 2: run a query against our database
+$query = mysqli_query($connection, 'SELECT * FROM issues;');
+
+// step 3: fetch all the results (not best practice, will discuss alternative shortly)
+$results = mysqli_fetch_all($query, MYSQLI_ASSOC);
+
+var_dump($results);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
