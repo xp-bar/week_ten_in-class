@@ -7,10 +7,7 @@ require_once __DIR__ . '/includes/scripts/database.php';
 $connection = getConnection();
 
 // step 2: run a query against our database
-$query = mysqli_query($connection, 'SELECT * FROM issues;');
-
-// step 3: fetch all the results (not best practice, will discuss alternative shortly)
-$results = mysqli_fetch_all($query, MYSQLI_ASSOC);
+$queryResult = mysqli_query($connection, 'SELECT * FROM issues;');
 
 ?>
 <!DOCTYPE html>
@@ -29,14 +26,24 @@ $results = mysqli_fetch_all($query, MYSQLI_ASSOC);
             <h2>Issues</h2>
             <ul>
                 <!-- loop over each result from our query -->
-                <?php foreach ($results as $result): ?>
+                <!-- while (): endwhile; -->
+                <!-- while () {} -->
+                <!-- the reason we use mysqli_fetch_array instead of fetch_all is that this loads the next
+                record every time we call it.
+                From previous lectures, we talked about how the () in a "while" are called every loop
+                at the _start_ of the loop
+
+                when we call mysqli_fetch_array for the FIFTH time in this loop,
+                it returns `null`, which is "falsy" and the while loop stops
+                -->
+                <?php while ($result = mysqli_fetch_array($queryResult)): ?>
                 <li>
                     <article>
                         <!-- and print the name -->
                         <h3><?php echo $result['name']; ?></h3>
                     </article>
                 </li>
-                <?php endforeach; ?>
+                <?php endwhile; ?>
             </ul>
         </main>
         <footer>
