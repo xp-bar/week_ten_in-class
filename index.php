@@ -36,11 +36,15 @@ $queryResult = mysqli_query($connection, 'SELECT * FROM issues;');
                 when we call mysqli_fetch_array for the FIFTH time in this loop,
                 it returns `null`, which is "falsy" and the while loop stops
                 -->
-                <?php while ($result = mysqli_fetch_array($queryResult)): ?>
+                <?php while ($issue = mysqli_fetch_array($queryResult)): ?>
                 <li>
                     <article>
                         <!-- and print the name -->
-                        <h3><?php echo $result['name']; ?></h3>
+                        <h3>
+                            <a href="issue.php?id=<?php echo $issue['id']; ?>">
+                                <?php echo $issue['name']; ?>
+                            </a>
+                        </h3>
                     </article>
                 </li>
                 <?php endwhile; ?>
