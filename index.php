@@ -12,8 +12,6 @@ $query = mysqli_query($connection, 'SELECT * FROM issues;');
 // step 3: fetch all the results (not best practice, will discuss alternative shortly)
 $results = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
-var_dump($results);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,6 +26,18 @@ var_dump($results);
             <h1>PHP &amp; HTML</h1>
         </header>
         <main>
+            <h2>Issues</h2>
+            <ul>
+                <!-- loop over each result from our query -->
+                <?php foreach ($results as $result): ?>
+                <li>
+                    <article>
+                        <!-- and print the name -->
+                        <h3><?php echo $result['name']; ?></h3>
+                    </article>
+                </li>
+                <?php endforeach; ?>
+            </ul>
         </main>
         <footer>
         </footer>
