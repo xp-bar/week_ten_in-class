@@ -1,35 +1,10 @@
 <?php
 
-require_once __DIR__ . '/includes/scripts/database.php';
+require_once __DIR__ . '/includes/scripts/entities/issues.php';
 
-$search = $_GET['search'] ?? null;
-
-// step 1: connect to database
-// mysqli_connect() - just in a different file
-$connection = getConnection();
-
-if (!$search) {
-    // step 2: run a query against our database
-    $queryResult = mysqli_query($connection, 'SELECT * FROM issues;');
-} else if ($search) {
-    // a BAD EXAMPLE of how to insert the search into our query
-    // $query = 'SELECT * FROM issues WHERE name LIKE ' . $search . ';';
-
-    $sanitizedInput = htmlspecialchars($search); // hello & world -> hello &amp; world
-    
-    // instead of executing a query right away, we can "prepare" it first,
-    // which will allow PHP to handle the insertion of our custom strings / searches etc.
-    // in a safer way.
-    $statement = mysqli_prepare($connection, 'SELECT * FROM issues WHERE name LIKE ?;');
-    // the array that we pass in as the second argument
-    // is merged into the above statement in the same order the question marks appear
-    $wildcardSearch = '%' . $search . '%';
-    $success        = mysqli_stmt_execute($statement, [$wildcardSearch]);
-    // query is: SELECT * FROM issues WHERE name LIKE '%search%';
-    
-    $queryResult = mysqli_stmt_get_result($statement);
-}
-
+// get the search from the URL
+$search      = $_GET['search'] ?? null;
+$queryResult = getIssues($search);
 
 ?>
 <!DOCTYPE html>

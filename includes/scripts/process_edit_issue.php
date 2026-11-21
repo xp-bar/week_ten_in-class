@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/database.php';
+require_once __DIR__ . '/entities/issues.php';
+require_once __DIR__ . '/helpers.php';
 
 function processFormInputs(array $input): array
 {
@@ -31,33 +32,13 @@ function validateInputs(array $inputs): bool
     return true; // return whether or not we passed validation
 }
 
-function updateIssue(
-    int $id,
-    string $name,
-    string $date,
-    bool $published
-): bool {
-    $connection = getConnection();
-    //                              name,     date,     published           id;
-    $query = 'UPDATE issues SET name = ?, date = ?, published = ? WHERE id = ?;';
-
-    // use the (int) cast to fix the type mismatch with booleans in the database
-    $bindings  = [$name, $date, (int) $published, $id]; 
-    $statement = mysqli_prepare($connection, $query);
-    $success   = mysqli_stmt_execute($statement, $bindings);
-    
-    return $success;
-}
-
-
 $input = processFormInputs($_POST);
 
 $id = intval($_GET['id'] ?? null);
 
 if ($id === null || !is_int($id) || $id === 0) {
-    http_response_code(404);
-    echo '<a href="index.php">Go home</a>';
-    exit('Error! Issue not found');
+    throwEntityNotFoundError();
+    exit;
 }
 
 $validated = validateInputs($input);
