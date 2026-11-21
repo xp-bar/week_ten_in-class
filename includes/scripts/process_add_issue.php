@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/database.php';
+require_once __DIR__ . '/entities/issues.php';
+require_once __DIR__ . '/helpers.php';
 
 function processFormInputs(array $input): array
 {
@@ -31,22 +32,6 @@ function validateInputs(array $inputs): bool
     return true; // return whether or not we passed validation
 }
 
-function createNewIssue(
-    string $name,
-    string $date,
-    bool $published
-): bool {
-    $connection = getConnection();
-    //                                                             (name, date, published)
-    $query     = 'INSERT INTO issues (name, date, published) VALUE (?, ?, ?);';
-    $bindings  = [$name, $date, $published];
-    $statement = mysqli_prepare($connection, $query);
-    $success   = mysqli_stmt_execute($statement, $bindings);
-    
-    return $success;
-}
-
-
 $input     = processFormInputs($_POST);
 $validated = validateInputs($input);
 
@@ -56,6 +41,6 @@ if (!$validated) {
     exit;
 }
 
-$success = createNewIssue($input['name'], $input['date'], $input['published']);
+$success = addIssue($input['name'], $input['date'], $input['published']);
 header('Location: /week_ten_in-class/add-issue.php');
 
