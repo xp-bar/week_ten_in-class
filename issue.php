@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/includes/scripts/database.php';
 require_once __DIR__ . '/includes/scripts/entities/issues.php';
+require_once __DIR__ . '/includes/scripts/entities/articles.php';
 
 $id    = array_key_exists('id', $_GET) ? intval($_GET['id']) : null;
 $issue = $id !== null ? getIssueById($id) : null;
@@ -14,11 +14,7 @@ if (!$issue) {
     exit('Error! Issue not found');
 }
 
-// we could use $id, but if it was a different field on $issue that we needed, we would grab instead
-// like this instead
-$issueId = $issue['id'];
-
-$articlesResult = query('SELECT * FROM articles WHERE issue_id = ?;', [$issueId]);
+$articlesResult = getArticlesByIssueId($issue['id']);
 
 ?>
 
