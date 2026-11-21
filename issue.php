@@ -3,10 +3,6 @@
 require_once __DIR__ . '/includes/scripts/database.php';
 require_once __DIR__ . '/includes/scripts/entities/issues.php';
 
-// step 1: connect to database
-// mysqli_connect() - just in a different file
-$connection = getConnection();
-
 $id    = array_key_exists('id', $_GET) ? intval($_GET['id']) : null;
 $issue = $id !== null ? getIssueById($id) : null;
 
