@@ -62,7 +62,7 @@ function addIssue(string $name, string $date, bool $published): bool
 }
 
 /**
- * Create a single issue
+ * Update a single issue
  *
  * @param int $id
  * @param string $name
