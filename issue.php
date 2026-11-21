@@ -25,6 +25,17 @@ $articlesResult = getArticlesByIssueId($issue['id']);
         <!-- don't just use the name of the record, 
         use some context that is consistent in the title as well -->
         <title>Issues - <?php echo $issue['name']; ?></title>
+        <style>
+            ul li article {
+                display: block;
+                max-width: 60rem;
+                width: 100%;
+            }
+            ul li article img {
+                width: 100%;
+                height: auto;
+            }
+        </style>
     </head>
     <body>
         <header>
@@ -38,6 +49,9 @@ $articlesResult = getArticlesByIssueId($issue['id']);
                     <article>
                         <h3><?php echo $article['headline']; ?></h3>
                         <p><?php echo $article['slug']; ?></p>
+                        <?php if ($article['image_url']): ?>
+                            <img src="<?php echo $article['image_url']; ?>" width="1920" height="1080" alt="">
+                        <?php endif; ?>
                     </article>
                 </li>
                 <?php } ?>
