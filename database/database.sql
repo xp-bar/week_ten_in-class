@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Nov 11, 2026 at 12:07 AM
+-- Generation Time: Nov 21, 2026 at 02:55 PM
 -- Server version: 8.0.44
 -- PHP Version: 8.3.28
 
@@ -31,6 +31,7 @@ CREATE TABLE `articles` (
   `id` int UNSIGNED NOT NULL,
   `slug` varchar(60) COLLATE utf8mb4_general_ci NOT NULL,
   `headline` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `image_url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `issue_id` int UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -38,14 +39,14 @@ CREATE TABLE `articles` (
 -- Dumping data for table `articles`
 --
 
-INSERT INTO `articles` (`id`, `slug`, `headline`, `issue_id`) VALUES
-(1, 'dog', 'Dog found making den in tree', 1),
-(2, 'cat', 'Cat wakes owner by baking pie', 1),
-(3, 'donkey', 'Award-winning donkey known best for excellent singing', 2),
-(4, 'shanties', 'Sea Shanties - top picks for your weekend', 2),
-(5, 'grass', '\"Their grass was already cut!\" - gardener puzzled by neighbourhood lawn', 3),
-(6, 'php-tips', 'Five PHP tips your doctor will hate you for - number 4 is insane!', 3),
-(7, 'sql-secrets', 'Secrets of SQL - how to write a query that will leave you puzzled in two years', 4);
+INSERT INTO `articles` (`id`, `slug`, `headline`, `image_url`, `issue_id`) VALUES
+(1, 'dog', 'Dog found making den in tree', NULL, 1),
+(2, 'cat', 'Cat wakes owner by baking pie', NULL, 1),
+(3, 'donkey', 'Award-winning donkey known best for excellent singing', NULL, 2),
+(4, 'shanties', 'Sea Shanties - top picks for your weekend', NULL, 2),
+(5, 'grass', '\"Their grass was already cut!\" - gardener puzzled by neighbourhood lawn', NULL, 3),
+(6, 'php-tips', 'Five PHP tips your doctor will hate you for - number 4 is insane!', NULL, 3),
+(7, 'sql-secrets', 'Secrets of SQL - how to write a query that will leave you puzzled in two years', NULL, 4);
 
 -- --------------------------------------------------------
 
