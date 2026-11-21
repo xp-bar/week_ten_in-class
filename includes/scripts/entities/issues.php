@@ -44,3 +44,19 @@ function getIssueById(int $id)
     
     return $result;
 }
+
+/**
+ * Create a single issue
+ *
+ * @param string $name
+ * @param string $date
+ * @param bool $published
+ * @return bool - was the record created or not?
+ */
+function addIssue(string $name, string $date, bool $published): bool 
+{
+    $bindings    = [$name, $date, $published];
+    $queryResult = query('INSERT INTO issues (name, date, published) VALUE (?, ?, ?);', $bindings);
+
+    return (bool) $queryResult;
+}
