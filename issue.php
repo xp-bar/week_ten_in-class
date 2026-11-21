@@ -7,23 +7,14 @@ require_once __DIR__ . '/includes/scripts/entities/issues.php';
 // mysqli_connect() - just in a different file
 $connection = getConnection();
 
-$id          = array_key_exists('id', $_GET) ? intval($_GET['id']) : null;
-$queryResult = $id !== null ? getIssueById($id) : null;
+$id    = array_key_exists('id', $_GET) ? intval($_GET['id']) : null;
+$issue = $id !== null ? getIssueById($id) : null;
 
-if (!$queryResult) {
+if (!$issue) {
     // set the response code
     http_response_code(404);
     // exit out with an error and print it to the browser
     echo '<a href="index.php">Go home</a>';
-    exit('Error! Issue not found');
-}
-
-$issue = mysqli_fetch_assoc($queryResult);
-
-//if ($issue === null) {
-if (!$issue) {
-    http_response_code(404);
-    echo '<a href="index.php">Go home</a><br>';
     exit('Error! Issue not found');
 }
 

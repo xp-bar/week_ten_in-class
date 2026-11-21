@@ -23,7 +23,7 @@ function getIssues(?string $search = null)
  * Get a single issue
  *
  * @param int $id
- * @return mysqli_result|null
+ * @return array|null
  */
 function getIssueById(int $id)
 {
@@ -31,10 +31,16 @@ function getIssueById(int $id)
         return null;
     }
 
-    $result = query('SELECT * FROM issues WHERE id = ?;', [$id]);
-    if (!$result) {
+    $queryResult = query('SELECT * FROM issues WHERE id = ?;', [$id]);
+    if (!$queryResult) {
         return null;
     }
 
+    $result = mysqli_fetch_assoc($queryResult);
+
+    if (!$result) {
+        return null;
+    }
+    
     return $result;
 }
