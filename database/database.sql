@@ -84,7 +84,7 @@ CREATE TABLE `issues` (
   `id` int UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `date` date NOT NULL,
-  `published` date DEFAULT NULL
+  `published` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -92,10 +92,16 @@ CREATE TABLE `issues` (
 --
 
 INSERT INTO `issues` (`id`, `name`, `date`, `published`) VALUES
-(1, 'September - 2026', '2026-09-01', NULL),
+(1, 'September - 20299', '2026-09-01', 1),
 (2, 'October - 2026', '2026-10-01', NULL),
 (3, 'November - 2026', '2026-11-01', NULL),
-(4, 'December - 2026', '2026-12-01', NULL);
+(4, 'December - 2026  Wheeee', '2026-12-01', 0),
+(5, 'HEllo, world', '2026-11-06', NULL),
+(6, 'December 2027', '2027-12-20', 1),
+(7, 'December 2027', '2027-12-20', 1),
+(8, 'December 2027', '2027-12-20', 1),
+(9, 'December 2027', '2027-12-20', 1),
+(10, 'Hello, world!', '2027-04-14', 1);
 
 -- --------------------------------------------------------
 
@@ -164,7 +170,7 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT for table `issues`
 --
 ALTER TABLE `issues`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `people`
