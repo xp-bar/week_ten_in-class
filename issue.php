@@ -2,16 +2,14 @@
 
 require_once __DIR__ . '/includes/scripts/entities/issues.php';
 require_once __DIR__ . '/includes/scripts/entities/articles.php';
+require_once __DIR__ . '/includes/scripts/helpers.php';
 
 $id    = array_key_exists('id', $_GET) ? intval($_GET['id']) : null;
 $issue = $id !== null ? getIssueById($id) : null;
 
 if (!$issue) {
-    // set the response code
-    http_response_code(404);
-    // exit out with an error and print it to the browser
-    echo '<a href="index.php">Go home</a>';
-    exit('Error! Issue not found');
+    throwEntityNotFoundError();
+    exit;
 }
 
 $articlesResult = getArticlesByIssueId($issue['id']);
