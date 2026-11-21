@@ -1,47 +1,23 @@
 <?php
 
 require_once __DIR__ . '/includes/scripts/database.php';
+require_once __DIR__ . '/includes/scripts/entities/issues.php';
 
 // step 1: connect to database
 // mysqli_connect() - just in a different file
 $connection = getConnection();
 
-$id = $_GET['id'] ?? null;
-$id = intval($id);
+$id          = array_key_exists('id', $_GET) ? intval($_GET['id']) : null;
+$queryResult = $id !== null ? getIssueById($id) : null;
 
-if ($id === null || !is_int($id) || $id === 0) {
+if (!$queryResult) {
     // set the response code
     http_response_code(404);
     // exit out with an error and print it to the browser
     echo '<a href="index.php">Go home</a>';
     exit('Error! Issue not found');
-
-    // alternatively, we could redirect to a "404.php" or something similar,
-    // with a nicer looking error page,
-    // and on THAT page, we would call http_response_code(404); and then print out our nicer
-    // error page.
-    // header('Location: 404.php');
 }
 
-// step 2: run a query against our database ==========================================================
-// step 2a: prepare the query with the wildcards
-$statement = mysqli_prepare($connection, 'SELECT * FROM issues WHERE id = ?;');
-
-// step 2b: execute the query replacing the wildcards with the array values in order
-$success = mysqli_stmt_execute($statement, [$id]);
-
-// step 2c: convert the now-executed statement into a mysqli result object so we can iterate over it.
-$queryResult = mysqli_stmt_get_result($statement);
-// ===================================================================================================
-
-// get the issue from the query
-// contrary to the other page, it's fine if we just load "everything", as "everything" should only
-// be one row.
-
-// 3. grab the single result
-//$issue = mysqli_fetch_array($queryResult, MYSQLI_ASSOC);
-
-// 3. alternatively, we can just use _assoc() instead of passing the flag
 $issue = mysqli_fetch_assoc($queryResult);
 
 //if ($issue === null) {
@@ -55,9 +31,7 @@ if (!$issue) {
 // like this instead
 $issueId = $issue['id'];
 
-$statement      = mysqli_prepare($connection, 'SELECT * FROM articles WHERE issue_id = ?;');
-$success        = mysqli_stmt_execute($statement, [$issueId]);
-$articlesResult = mysqli_stmt_get_result($statement);
+$articlesResult = query('SELECT * FROM articles WHERE issue_id = ?;', [$issueId]);
 
 ?>
 

@@ -18,3 +18,23 @@ function getIssues(?string $search = null)
 
     return query('SELECT * FROM issues;');
 }
+
+/**
+ * Get a single issue
+ *
+ * @param int $id
+ * @return mysqli_result|null
+ */
+function getIssueById(int $id)
+{
+    if ($id < 1) {
+        return null;
+    }
+
+    $result = query('SELECT * FROM issues WHERE id = ?;', [$id]);
+    if (!$result) {
+        return null;
+    }
+
+    return $result;
+}
