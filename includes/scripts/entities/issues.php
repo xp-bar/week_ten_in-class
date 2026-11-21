@@ -53,7 +53,7 @@ function getIssueById(int $id)
  * @param bool $published
  * @return bool - was the record created or not?
  */
-function addIssue(string $name, string $date, bool $published): bool 
+function addIssue(string $name, string $date, bool $published): bool
 {
     $bindings    = [$name, $date, $published];
     $queryResult = query('INSERT INTO issues (name, date, published) VALUE (?, ?, ?);', $bindings);
