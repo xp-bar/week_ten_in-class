@@ -28,3 +28,17 @@ function getConnection()
 
     return mysqli_connect($hostname, $username, $password, $database, $port);
 }
+
+function query(string $query, array $bindings = [])
+{
+    $connection = getConnection();
+    $statement  = mysqli_prepare($connection, $query);
+    $success    = mysqli_stmt_execute($statement, $bindings);
+    
+    if (!$success) {
+        return null;
+    }
+
+    return mysqli_stmt_get_result($statement);
+}
+
