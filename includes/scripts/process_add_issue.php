@@ -21,6 +21,16 @@ function processFormInputs(array $input): array
     return $result;
 }
 
+function validateInputs(array $inputs): bool
+{
+    // add our individual field validations here;
+    // i.e. name >=3 characters, is shorter than 40 characters, is not duplicated with an existing one, etc.
+    //      date is in the future
+    //      published is a boolean, etc.
+    
+    return true; // return whether or not we passed validation
+}
+
 function createNewIssue(
     string $name,
     string $date,
@@ -37,9 +47,15 @@ function createNewIssue(
 }
 
 
-$input = processFormInputs($_POST);
-// add a validation step here, similar to processing the adoption form in previous weeks
-$success = createNewIssue($input['name'], $input['date'], $input['published']);
+$input     = processFormInputs($_POST);
+$validated = validateInputs($input);
 
+if (!$validated) {
+    // add errors to the session here, or in validateInputs, etc.
+    header('Location: /week_ten_in-class/add-issue.php');
+    exit;
+}
+
+$success = createNewIssue($input['name'], $input['date'], $input['published']);
 header('Location: /week_ten_in-class/add-issue.php');
 
