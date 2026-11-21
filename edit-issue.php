@@ -1,26 +1,17 @@
 <?php
 
-require_once __DIR__ . '/includes/scripts/database.php';
+require_once __DIR__ . '/includes/scripts/entities/issues.php';
 
-$id = $_GET['id'] ?? null;
-$id = intval($id);
+$id    = array_key_exists('id', $_GET) ? intval($_GET['id']) : null;
+$issue = $id !== null ? getIssueById($id) : null;
 
-if ($id === null || !is_int($id) || $id === 0) {
+if (!$issue) {
+    // set the response code
     http_response_code(404);
+    // exit out with an error and print it to the browser
     echo '<a href="index.php">Go home</a>';
     exit('Error! Issue not found');
 }
-
-// this probably belongs down here;
-// if the ID above is invalid
-// why would we bother opening a connection to the DB?
-$connection = getConnection();
-
-$statement   = mysqli_prepare($connection, 'SELECT * FROM issues WHERE id = ?;');
-$success     = mysqli_stmt_execute($statement, [$id]);
-$queryResult = mysqli_stmt_get_result($statement);
-// we have our issue object
-$issue = mysqli_fetch_assoc($queryResult);
 
 ?>
 <!DOCTYPE html>
