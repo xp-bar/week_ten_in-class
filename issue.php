@@ -55,7 +55,9 @@ if (!$issue) {
 // like this instead
 $issueId = $issue['id'];
 
-$articlesResult = mysqli_query($connection, 'SELECT * FROM articles WHERE issue_id = ' . $issueId. ';');
+$statement      = mysqli_prepare($connection, 'SELECT * FROM articles WHERE issue_id = ?;');
+$success        = mysqli_stmt_execute($statement, [$issueId]);
+$articlesResult = mysqli_stmt_get_result($statement);
 
 ?>
 
