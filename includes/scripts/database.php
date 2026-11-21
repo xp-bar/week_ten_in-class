@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 function getConnection()
 {
+    // mac:
     $hostname = 'localhost';
+
+    // windows:
     //$hostname = '127.0.0.1'; // potentially may need to use this host if localhost is not working
     
     $username = 'root';

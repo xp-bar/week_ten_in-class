@@ -7,8 +7,9 @@ require_once __DIR__ . '/includes/scripts/database.php';
 $connection = getConnection();
 
 $id = $_GET['id'] ?? null;
+$id = intval($id);
 
-if ($id === null) {
+if ($id === null || !is_int($id) || $id === 0) {
     // set the response code
     http_response_code(404);
     // exit out with an error and print it to the browser
@@ -22,8 +23,16 @@ if ($id === null) {
     // header('Location: 404.php');
 }
 
-// step 2: run a query against our database
-$queryResult = mysqli_query($connection, 'SELECT * FROM issues WHERE id = ' . $id . ';');
+// step 2: run a query against our database ==========================================================
+// step 2a: prepare the query with the wildcards
+$statement = mysqli_prepare($connection, 'SELECT * FROM issues WHERE id = ?;');
+
+// step 2b: execute the query replacing the wildcards with the array values in order
+$success = mysqli_stmt_execute($statement, [$id]);
+
+// step 2c: convert the now-executed statement into a mysqli result object so we can iterate over it.
+$queryResult = mysqli_stmt_get_result($statement);
+// ===================================================================================================
 
 // get the issue from the query
 // contrary to the other page, it's fine if we just load "everything", as "everything" should only
@@ -46,7 +55,9 @@ if (!$issue) {
 // like this instead
 $issueId = $issue['id'];
 
-$articlesResult = mysqli_query($connection, 'SELECT * FROM articles WHERE issue_id = ' . $issueId. ';');
+$statement      = mysqli_prepare($connection, 'SELECT * FROM articles WHERE issue_id = ?;');
+$success        = mysqli_stmt_execute($statement, [$issueId]);
+$articlesResult = mysqli_stmt_get_result($statement);
 
 ?>
 
@@ -76,6 +87,7 @@ $articlesResult = mysqli_query($connection, 'SELECT * FROM articles WHERE issue_
                 </li>
                 <?php } ?>
             </ul>
+            <a href="edit-issue.php?id=<?php echo $issue['id']; ?>">Edit Issue</a>
         </main>
         <footer>
             <a href="index.php">Home</a>
