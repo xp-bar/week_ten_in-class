@@ -87,6 +87,7 @@ $articlesResult = mysqli_stmt_get_result($statement);
                 </li>
                 <?php } ?>
             </ul>
+            <a href="edit-issue.php?id=<?php echo $issue['id']; ?>">Edit Issue</a>
         </main>
         <footer>
             <a href="index.php">Home</a>
