@@ -60,3 +60,20 @@ function addIssue(string $name, string $date, bool $published): bool
 
     return (bool) $queryResult;
 }
+
+/**
+ * Create a single issue
+ *
+ * @param int $id
+ * @param string $name
+ * @param string $date
+ * @param bool $published
+ * @return bool - was the record created or not?
+ */
+function updateIssue(int $id, string $name, string $date, bool $published): bool
+{
+    $bindings    = [$name, $date, $published, $id];
+    $queryResult = query('UPDATE issues SET name = ?, date = ?, published = ? WHERE id = ?;', $bindings);
+
+    return (bool) $queryResult;
+}
